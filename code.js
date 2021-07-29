@@ -16,7 +16,7 @@ class FlickrPhotos {
     this.location = location;
     this.container = document.getElementById("photoContainer");
     this.page = 1; //there will be 1 page
-    this.perPage = 5; //and 5 photos will be shown
+    this.perPage = 5; //and 5 photos will be shown per page
     this.currentPhotoIndex = 0; //starting at the 1st photo
     this.photos = []; // the photos will be stored in an array
     this.isLoading = false; // as long as isLoading is false the button will work
@@ -30,22 +30,16 @@ class FlickrPhotos {
   }
 
   displayNextPhoto() {
-    console.log("will display next photo");
     this.currentPhotoIndex += 1; //thin increments the index of the photo array by one
     // if the data is being loaded, disable the button
     if (this.isLoading) {
-      console.log(this.currentPhotoIndex);
       return;
     } //if the current photo is less than the array length
     if (this.currentPhotoIndex < this.photos.length) {
-      console.log(this.currentPhotoIndex);
       let photoObject = this.photos[this.currentPhotoIndex];
       this.displayPhotoObject(photoObject); //display an image
     } else {
-      console.log(this.currentPhotoIndex);
-      console.log("this is thee else statement, resetting to 0");
       // if its not less than the array console.log the message
-      console.log("fetching another page of photos from Flickr");
       this.page += 1; //and move on to the next page
       this.currentPhotoIndex = 0;
       this.fetchDataFromFlickr();
@@ -64,7 +58,6 @@ class FlickrPhotos {
   processFlickrResponse(parsedResponse) {
     //this handles the response from flickr to display the photos
     this.setLoading(false);
-    console.log(parsedResponse);
     this.photos = parsedResponse.photos.photo;
     if (this.photos.length > 0) {
       let firstPhotoObject = this.photos[this.currentPhotoIndex];
@@ -113,7 +106,8 @@ class FlickrPhotos {
       "&lat=" +
       this.location.latitude +
       "&lon=" +
-      this.location.longitude
+      this.location.longitude +
+      "&text=near me"
     );
   }
 
